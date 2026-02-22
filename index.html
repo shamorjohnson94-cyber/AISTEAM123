@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Gallery / Artist Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #050505;
+      color: #f5f5f5;
+    }
+
+    /* NAVBAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #000;
+      border-bottom: 1px solid #333;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .nav-logo span {
+      color: #ff2e63;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      color: #f5f5f5;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 0.2rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #ff2e63;
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* HERO SECTION — UPDATED WITH IMAGE 12 */
+    .hero {
+      background: url("https://i.pinimg.com/736x/2e/4e/29/2e4e29c34403bdbc6b0bacfb1b500640.jpg")
+        center/cover no-repeat;
+      padding: 5rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .hero-text h1 span {
+      color: #ff2e63;
+    }
+
+    .hero-text p {
+      margin-top: 1rem;
+      max-width: 480px;
+      color: #e0e0e0;
+      font-size: 0.95rem;
+    }
+
+    .hero-cta {
+      margin-top: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      padding: 0.8rem 1.6rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 999px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-primary {
+      background: #ff2e63;
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(255, 46, 99, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(255, 46, 99, 0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    .btn-outline:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .hero-badge {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ffd6e3;
+    }
+
+    .hero-image {
+      position: relative;
+      min-height: 260px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: url("https://via.placeholder.com/600x600/111111/ffffff?text=Your+Art+Here")
+        center/cover no-repeat;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-tag {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* GALLERY SECTION */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2rem;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: #b3b3b3;
+      max-width: 360px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #111;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      opacity: 0.85;
+    }
+
+    /* PROJECT CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #111;
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid #222;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #ff9fba;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: #c7c7c7;
+      margin-bottom: 1rem;
+    }
+
+    .card a {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ff2e63;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #222;
+      padding: 2rem 1.5rem 3rem;
+      background: #000;
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links a {
+      color: #999;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image {
+        order: -1;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <nav class="nav">
+      <div class="nav-logo">My<span>Artist</span></div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>
+          New Era,<br />
+          <span>Your Name</span> in Lights
+        </h1>
+        <p>
+          A bold landing page inspired by modern artist sites—showcase your latest project, music, or portfolio with a clean, dramatic layout.
+        </p>
+        <div class="hero-cta">
+          <button class="btn btn-primary">Listen / View Now</button>
+          <button class="btn btn-outline">Join Mailing List</button>
+        </div>
+        <div class="hero-badge">New project out now · Tour / Launch dates coming soon</div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-tag">Featured Project · 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section">
+    <div class="section-header">
+      <div class="section-title">Gallery</div>
+      <p class="section-subtitle">Your updated gallery with all 12 images.</p>
+    </div>
+
+    <div class="gallery-grid">
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/f0/3a/20/f03a2041909ba8d0de7c664fe92987a2.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/35/00/c6/3500c603de7c63704adf9f249c992d47.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/2a/84/74/2a84744c47bf9e566011045a05819655.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/ca/27/70/ca2770905d1eff8473dc88ad12f8ed55.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/86/62/3a/86623a56ae8eaeab42d6db614ab395e5.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/20/d0/02/20d002f1ed968bfb7f933bfdd9e34a7c.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/6a/22/db/6a22dbdaf69b7a71b8f94a3ba1e947a2.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/31/8e/87/318e874fc9e971902c033eb550f775b3.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/13/99/03/1399039f8c41fc391edf2f831ce64b97.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/1200x/95/44/c9/9544c97fed58e4880c6d71fa35ddd57c.jpg" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://www.pinterest.com/pin/207587864069851207/" />
+      </div>
+
+      <div class="gallery-item">
+        <img src="https://i.pinimg.com/736x/2e/4e/29/2e4e29c34403bdbc6b0bacfb1b500640.jpg" />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="section-header">
+      <div class="section-title">Projects</div>
+      <p class="section-subtitle">A section for albums, videos, or case studies.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-label">Project #1</div>
+        <div class="card-title">Main Release / Album</div>
+        <p>Short description of your main project.</p>
+        <a href="#">Listen / View</a>
+      </article>
+
+      <article class="card">
+        <div class="card-label">Project #2</div>
+        <div class="card-title">Side Project / Collab</div>
+        <p>Another highlight or collaboration.</p>
+        <a href="#">Explore</a>
+      </article>
+
+      <article class="card">
+        <div class="card-label">Video Demo</div>
+        <div class="card-title">YouTube / Visual Trailer</div>
+        <p>Embed or link to a YouTube video.</p>
+        <a href="#">Watch on YouTube</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="section-header">
+      <div class="section-title">About</div>
+      <p class="section-subtitle">A short bio area.</p>
+    </div>
+    <p style="max-width: 650px; font-size: 0.95rem; color: #d0d0d0;">
+      Write a few lines about who you are, what you create, and what this site is for.
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="section-header">
+      <div class="section-title">Contact</div>
+      <p class="section-subtitle">Simple contact info.</p>
+    </div>
+    <p style="font-size: 0.95rem; color: #d0d0d0;">
+      For bookings or inquiries, email:
+      <a href="mailto:you@example.com" style="color: #ff2e63;">you@example.com</a>
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2026 Your Name. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
